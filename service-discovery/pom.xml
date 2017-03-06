@@ -9,8 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>gateway</artifactId>
-    <name>gateway</name>
+    <artifactId>service-discovery</artifactId>
+    <name>service-discovery-eureka</name>
     <description>Eureka server - service discovery</description>
 
     <dependencies>
