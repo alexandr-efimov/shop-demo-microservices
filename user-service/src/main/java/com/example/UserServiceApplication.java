@@ -27,6 +27,7 @@ public class UserServiceApplication {
 
         List<User> users = Arrays.asList(new User(null, "user1", "user1@mail.ru"),
                 new User(null, "user2", "user2@yandex.ru"),
+                new User(null, "manager", "manager@abra.ua"),
                 new User(null, "user3", "user3@gmail.ru"));
         log.info("Save users to db: " + users);
 

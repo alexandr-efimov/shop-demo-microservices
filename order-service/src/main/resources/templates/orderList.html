@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+        layout:decorator="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>All orders</title>
+</head>
+<body>
+<h1 layout:fragment="header">Order : View all</h1>
+
+<h2>All ....</h2>
+<div layout:fragment="content" class="container">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>User</td>
+            <td>Orders</td>
+            <td>Total price</td>
+            <td>Order date</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${orders.empty}">
+            <td colspan="4">No orders</td>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.user}"></td>
+            <td th:text="${order.orderProducts}"></td>
+            <td th:text="${order.getTotalPrice()}"></td>
+            <td th:text="${order.orderDateTime}"></td>
+            <td>
+                <form th:action="'/order-service/'+${order.id}" th:method="delete">
+                    <input type="submit" value="delete" class="btn btn-link"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <form action="#" th:action="'/order-service' + @{/addRandomOrder}" method="post">
+                <button type="submit" name="addRandomOrder"
+                        class="btn btn-default">Add
+                    random order
+                </button>
+            </form>
+        </div>
+        <div class="panel-body">
+            <p>Add order form</p>
+            <form action="#" th:action="'/order-service' +@{/addOrder}" method="post">
+                <p>User:
+                    <select class="form-control" id="userId" name="userId">
+                        <option th:each="user : ${availableUsers}"
+                                th:value="${user.id}"
+                                th:text="${user}">
+                        </option>
+                    </select>
+                </p>
+                <p>Products:
+                    <select class="form-control" id="productId" name="productId" multiple="multiple">
+                        <option th:each="prod : ${availableProducts}"
+                                th:value="${prod.id}"
+                                th:text="${prod.model +', price: ' + prod.price}">product
+                        </option>
+                    </select>
+                </p>
+
+                <button type="submit" name="addOrder"
+                        class="btn btn-default">Add order
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

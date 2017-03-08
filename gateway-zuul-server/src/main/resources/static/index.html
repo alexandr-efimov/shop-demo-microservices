@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zuul gateway proxy</title>
+
+    <link rel="stylesheet"
+          href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+
+</head>
+<body>
+<div class="well well-sm"><h1>Gateway - Zuul: proxy to all microservices</h1></div>
+<div class="well well-lg">
+    <h3>Links to services</h3>
+
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="/user-service/user">Users, user by id - add /{id} </a></li>
+            <li class="list-group-item"><a href="/store-service/phone">Phones, phone by id - add /{id} </a></li>
+            <li class="list-group-item">stub</li>
+            <li class="list-group-item"><a href="/order-service/">Order service - CR(U)D orders + communicate to other
+                ms </a></li>
+            <li class="list-group-item"><a href="/" onclick="javascript:event.target.port=8761">Eureka (localhost
+                8761)</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -24,10 +27,12 @@ public class StoreServiceApplication {
     public void putTestData() {
         Phone samsung = new Phone("Samsung", "Galaxy 2", 5, 1500);
         Phone iphone = new Phone("Apple", "Iphone 7", 5, 2200);
+        Phone lg = new Phone("Lg", "G5", 5.5, 408);
+        Phone alcatel = new Phone("Alcatel", "IDOL 4s", 4, 288);
 
-        log.info("Save: " + samsung);
-        log.info("Save: " + iphone);
-        phoneRepository.save(samsung);
-        phoneRepository.save(iphone);
+
+        List<Phone> list = new ArrayList<>();
+        Collections.addAll(list, samsung, iphone, lg, alcatel);
+        phoneRepository.save(list);
     }
 }
