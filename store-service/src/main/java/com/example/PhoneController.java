@@ -25,7 +25,7 @@ public class PhoneController {
         this.phoneRepository = phoneRepository;
     }
 
-    @GetMapping("/phone")
+    @GetMapping("/phone/")
     public ResponseEntity<List<Phone>> all() {
         log.info("Get all phones");
         return new ResponseEntity<>((List<Phone>) phoneRepository.findAll(), HttpStatus.OK);

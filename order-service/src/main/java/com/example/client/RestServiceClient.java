@@ -4,7 +4,7 @@ package com.example.client;
  * Created by alexandr.efimov on 3/9/2017.
  */
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Rest client to some service for entities of {@link T} type
@@ -19,7 +19,7 @@ public interface RestServiceClient<T> {
      * @return collection with entities
      * @throws IllegalStateException if can't connect to service instance
      */
-    Collection<T> findAll();
+    List<T> findAll();
 
     /**
      * Get one entity by id

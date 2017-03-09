@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ public class ProductClient implements RestServiceClient<Product> {
     private LoadBalancerClient loadBalancer;
 
     @Override
-    public Collection<Product> findAll() {
+    public List<Product> findAll() {
         Optional<String> urlToService = Optional.ofNullable(ClientUtils.getLinkToCLientInstanceFromLoadBalancer(loadBalancer, SERVICE_ID_STORE_SERVICE));
         String urlToPhones = urlToService.orElseThrow(() -> new IllegalStateException(ERROR_MESSAGE_NO_CONNECTION_TO_SERVICE)) + LINK_SUFFIX_PHONE;
 
@@ -46,8 +45,9 @@ public class ProductClient implements RestServiceClient<Product> {
     @Override
     public Product getOne(long id) {
         Optional<String> urlToService = Optional.ofNullable(ClientUtils.getLinkToCLientInstanceFromLoadBalancer(loadBalancer, SERVICE_ID_STORE_SERVICE));
-        String urlToPhones = urlToService.orElseThrow(() -> new IllegalStateException(ERROR_MESSAGE_NO_CONNECTION_TO_SERVICE)) + LINK_SUFFIX_PHONE;
+        String urlToPhones = urlToService.orElseThrow(() -> new IllegalStateException(ERROR_MESSAGE_NO_CONNECTION_TO_SERVICE)) + LINK_SUFFIX_PHONE + "/" + id;
 
+        log.info("Link to phone: " + urlToPhones);
         ResponseEntity<Product> response = restTemplate.exchange(urlToPhones, HttpMethod.GET, null, Product.class);
         log.info("Response from: " + urlToPhones + ", " + response);
         return response.getBody();

@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.client.RestServiceClient;
+import com.example.client.UserClientFeign;
 import com.example.model.Order;
 import com.example.model.Product;
 import com.example.model.User;
@@ -28,7 +29,7 @@ public class OrderController {
     @Autowired
     private RestServiceClient<Product> productClient;
     @Autowired
-    private RestServiceClient<User> userClient;
+    private UserClientFeign userClient;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -88,9 +89,16 @@ public class OrderController {
 
     @RequestMapping("/test/phone/{id}")
     @ResponseBody
-    public Product testOne(@PathVariable long id) {
+    public Product testOnePhone(@PathVariable long id) {
         log.info("Get by id: " + id);
         return productClient.getOne(id);
+    }
+
+    @RequestMapping("/test/user/{id}")
+    @ResponseBody
+    public User testOneUser(@PathVariable long id) {
+        log.info("Get user by id: " + id);
+        return userClient.getOne(id);
     }
 
     @RequestMapping(value = "/addRandomOrder", method = RequestMethod.POST)
@@ -102,7 +110,7 @@ public class OrderController {
         user.setId(null);
         user.setOrders(Arrays.asList(order));
         order.setUser(user);
-        List<Product> products = (List<Product>) productClient.findAll();
+        List<Product> products = productClient.findAll();
         Collections.shuffle(products);
         List<Product> productsForOrder = products.stream().limit(random.nextInt(products.size() + 1)).collect(Collectors.toList());
         productsForOrder.forEach(e -> e.setCurrentOrder(order));
