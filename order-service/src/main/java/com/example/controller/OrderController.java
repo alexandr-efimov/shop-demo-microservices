@@ -1,7 +1,6 @@
 package com.example.controller;
 
-import com.example.client.ProductClient;
-import com.example.client.UserClient;
+import com.example.client.RestServiceClient;
 import com.example.model.Order;
 import com.example.model.Product;
 import com.example.model.User;
@@ -24,16 +23,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderController {
 
+    private static final String REFERER = "Referer";
+    private static final String REDIRECT = "redirect:";
     @Autowired
-    private ProductClient productClient;
+    private RestServiceClient<Product> productClient;
     @Autowired
-    private UserClient userClient;
+    private RestServiceClient<User> userClient;
 
     @Autowired
     private OrderRepository orderRepository;
     private Random random = new Random();
-    ;
-
 
     @RequestMapping("/")
     public ModelAndView orderList() {
@@ -51,8 +50,8 @@ public class OrderController {
         log.info("Delete order, id: " + id);
         orderRepository.delete(id);
 
-        String referrer = request.getHeader("Referer");
-        return "redirect:" + referrer;
+        String referrer = request.getHeader(REFERER);
+        return REDIRECT + referrer;
     }
 
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
@@ -72,8 +71,8 @@ public class OrderController {
         log.info("Add order: " + order);
         orderRepository.save(order);
 
-        String referrer = request.getHeader("Referer");
-        return "redirect:" + referrer;
+        String referrer = request.getHeader(REFERER);
+        return REDIRECT + referrer;
     }
 
     /****************************************************************************************************
@@ -105,7 +104,7 @@ public class OrderController {
         order.setUser(user);
         List<Product> products = (List<Product>) productClient.findAll();
         Collections.shuffle(products);
-        List<Product> productsForOrder = products.stream().limit(random.nextInt(products.size()) + 1).collect(Collectors.toList());
+        List<Product> productsForOrder = products.stream().limit(random.nextInt(products.size() + 1)).collect(Collectors.toList());
         productsForOrder.forEach(e -> e.setCurrentOrder(order));
         productsForOrder.forEach(e -> e.setId(null));
 
@@ -113,7 +112,7 @@ public class OrderController {
         log.info("Save order: \n" + order);
         orderRepository.save(order);
 
-        String referrer = request.getHeader("Referer");
-        return "redirect:" + referrer;
+        String referrer = request.getHeader(REFERER);
+        return REDIRECT + referrer;
     }
 }
