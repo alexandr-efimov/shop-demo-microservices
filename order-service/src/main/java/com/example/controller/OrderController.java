@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.client.RestServiceClient;
+import com.example.client.ProductClientFeign;
 import com.example.client.UserClientFeign;
 import com.example.model.Order;
 import com.example.model.Product;
@@ -27,7 +27,7 @@ public class OrderController {
     private static final String REFERER = "Referer";
     private static final String REDIRECT = "redirect:";
     @Autowired
-    private RestServiceClient<Product> productClient;
+    private ProductClientFeign productClient;
     @Autowired
     private UserClientFeign userClient;
 

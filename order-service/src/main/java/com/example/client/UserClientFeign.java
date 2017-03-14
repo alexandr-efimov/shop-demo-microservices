@@ -11,9 +11,8 @@ import java.util.List;
 /**
  * Created by alexandr.efimov on 3/9/2017.
  */
-@FeignClient("USER-SERVICE")
+@FeignClient(value = "USER-SERVICE", fallback = UserClientFallbackImpl.class)
 public interface UserClientFeign {
-
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/")
     List<User> findAll();
