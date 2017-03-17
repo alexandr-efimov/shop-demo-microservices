@@ -2,11 +2,13 @@ package com.example;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -30,9 +32,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/{id}")
-    public User getUser(@PathVariable("id") long id) {
+    public User getUser(@PathVariable("id") long id, Principal principal) {
+        log.warn("Principal: " + principal);
         log.info("Get user by id: " + id);
         return userRepository.findOne(id);
+    }
+
+    @PreAuthorize("#oauth2.hasScope('server')")
+    @RequestMapping(value = "/user_secure", method = RequestMethod.GET)
+    public List<User> allWithScopeServer(Principal principal) {
+        log.warn("Get all users SECURE ZONE ---> server scope");
+        log.warn("Principal: " + principal);
+        return (List<User>) userRepository.findAll();
     }
 
 }

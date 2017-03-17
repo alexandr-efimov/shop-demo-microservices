@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: auth-service-piggy
+  data:
+    mongodb:
+      host: localhost
+      username: dev
+      password: dev
+      database: shop-auth-db
+      port: 27017
+
+server:
+  port: 5000
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+logging:
+  level:
+    root: debug
